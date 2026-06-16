@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -32,8 +33,21 @@ int main() {
         {"CALL-1003", "Fall", "LocationZ", 3}
     };
 
+    sort(calls.begin(), calls.end(),
+        [](const EmergencyCall& a, const EmergencyCall& b) {
+            return a.priority < b.priority;
+        });
+
     cout << "Ambulances loaded: " << ambulances.size() << endl;
     cout << "Emergency calls loaded: " << calls.size() << endl;
+
+    cout << "\nCalls sorted by priority:" << endl;
+
+    for (const auto& call : calls) {
+        cout << call.callId << " | "
+             << call.callType << " | Priority "
+             << call.priority << endl;
+    }
 
     return 0;
 }
