@@ -10,7 +10,6 @@ struct Ambulance {
     string id;
     string location;
     bool available;
-    int travelTimeToCall;
 };
 
 struct EmergencyCall {
@@ -26,14 +25,24 @@ struct Route {
     int travelTime;
 };
 
+int findTravelTime(const vector<Route>& routes, const string& from, const string& to) {
+    for (const auto& route : routes) {
+        if (route.from == from && route.to == to) {
+            return route.travelTime;
+        }
+    }
+
+    return 9999;
+}
+
 int main() {
 
     cout << "C++ Ambulance Dispatch Simulator" << endl;
 
     vector<Ambulance> ambulances = {
-        {"AMB-1", "StationA", true, 12},
-        {"AMB-2", "StationB", true, 7},
-        {"AMB-3", "StationC", true, 15}
+        {"AMB-1", "StationA", true},
+        {"AMB-2", "StationB", true},
+        {"AMB-3", "StationC", true}
     };
 
     vector<EmergencyCall> calls = {
@@ -86,10 +95,14 @@ int main() {
 
         for (int i = 0; i < ambulances.size(); i++) {
 
-            if (ambulances[i].available &&
-                ambulances[i].travelTimeToCall < fastestTime) {
+            int routeTime = findTravelTime(
+                routes,
+                ambulances[i].location,
+                call.location
+            );
 
-                fastestTime = ambulances[i].travelTimeToCall;
+            if (ambulances[i].available && routeTime < fastestTime) {
+                fastestTime = routeTime;
                 selectedIndex = i;
             }
         }
@@ -102,7 +115,7 @@ int main() {
                  << ", Call Location=" << call.location
                  << ", Selected Ambulance=" << ambulances[selectedIndex].id
                  << ", Ambulance Location=" << ambulances[selectedIndex].location
-                 << ", Time to Call=" << ambulances[selectedIndex].travelTimeToCall
+                 << ", Time to Call=" << fastestTime
                  << " minutes"
                  << endl;
 
