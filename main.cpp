@@ -42,6 +42,20 @@ int main() {
         {"CALL-1003", "Fall", "LocationZ", 3}
     };
 
+    vector<Route> routes = {
+        {"StationA", "LocationX", 12},
+        {"StationB", "LocationX", 7},
+        {"StationC", "LocationX", 15},
+
+        {"StationA", "LocationY", 10},
+        {"StationB", "LocationY", 14},
+        {"StationC", "LocationY", 6},
+
+        {"StationA", "LocationZ", 8},
+        {"StationB", "LocationZ", 11},
+        {"StationC", "LocationZ", 9}
+    };
+
     sort(calls.begin(), calls.end(),
          [](const EmergencyCall& a, const EmergencyCall& b) {
              return a.priority < b.priority;
