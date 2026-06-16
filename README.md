@@ -12,6 +12,9 @@ This project is a C++ emergency dispatch simulation that selects ambulances for 
 - Calculates route travel time
 - Demonstrates algorithmic problem solving
 - Uses C++ data structures and object-oriented design
+- Selects the fastest ambulance based on route travel time
+- Uses route network data to simulate dispatch decisions
+- Measures algorithm execution time using C++ chrono
 
 ## Technologies
 
