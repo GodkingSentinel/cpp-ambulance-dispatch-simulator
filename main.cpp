@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 
 using namespace std;
 
@@ -20,13 +21,14 @@ struct EmergencyCall {
 };
 
 int main() {
+
     cout << "C++ Ambulance Dispatch Simulator" << endl;
 
-  vector<Ambulance> ambulances = {
-    {"AMB-1", "StationA", true, 12},
-    {"AMB-2", "StationB", true, 7},
-    {"AMB-3", "StationC", true, 15}
-};
+    vector<Ambulance> ambulances = {
+        {"AMB-1", "StationA", true, 12},
+        {"AMB-2", "StationB", true, 7},
+        {"AMB-3", "StationC", true, 15}
+    };
 
     vector<EmergencyCall> calls = {
         {"CALL-1001", "Cardiac", "LocationX", 1},
@@ -35,9 +37,9 @@ int main() {
     };
 
     sort(calls.begin(), calls.end(),
-        [](const EmergencyCall& a, const EmergencyCall& b) {
-            return a.priority < b.priority;
-        });
+         [](const EmergencyCall& a, const EmergencyCall& b) {
+             return a.priority < b.priority;
+         });
 
     cout << "Ambulances loaded: " << ambulances.size() << endl;
     cout << "Emergency calls loaded: " << calls.size() << endl;
@@ -45,41 +47,59 @@ int main() {
     cout << "\nCalls sorted by priority:" << endl;
 
     for (const auto& call : calls) {
-        cout << call.callId << " | "
-             << call.callType << " | Priority "
-             << call.priority << endl;
+        cout << call.callId
+             << " | "
+             << call.callType
+             << " | Priority "
+             << call.priority
+             << endl;
     }
+
     cout << "\nDispatch Results:" << endl;
 
-for (const auto& call : calls) {
+    auto startTime = chrono::high_resolution_clock::now();
 
-    int fastestTime = 9999;
-    int selectedIndex = -1;
+    for (const auto& call : calls) {
 
-    for (int i = 0; i < ambulances.size(); i++) {
+        int fastestTime = 9999;
+        int selectedIndex = -1;
 
-        if (ambulances[i].available &&
-            ambulances[i].travelTimeToCall < fastestTime) {
+        for (int i = 0; i < ambulances.size(); i++) {
 
-            fastestTime = ambulances[i].travelTimeToCall;
-            selectedIndex = i;
+            if (ambulances[i].available &&
+                ambulances[i].travelTimeToCall < fastestTime) {
+
+                fastestTime = ambulances[i].travelTimeToCall;
+                selectedIndex = i;
+            }
+        }
+
+        if (selectedIndex != -1) {
+
+            cout << "Dispatch Record: "
+                 << "Call ID=" << call.callId
+                 << ", Call Type=" << call.callType
+                 << ", Call Location=" << call.location
+                 << ", Selected Ambulance=" << ambulances[selectedIndex].id
+                 << ", Ambulance Location=" << ambulances[selectedIndex].location
+                 << ", Time to Call=" << ambulances[selectedIndex].travelTimeToCall
+                 << " minutes"
+                 << endl;
+
+            ambulances[selectedIndex].available = false;
         }
     }
 
-    if (selectedIndex != -1) {
+    auto endTime = chrono::high_resolution_clock::now();
 
-      cout << "Dispatch Record: "
-     << "Call ID=" << call.callId
-     << ", Call Type=" << call.callType
-     << ", Call Location=" << call.location
-     << ", Selected Ambulance=" << ambulances[selectedIndex].id
-     << ", Ambulance Location=" << ambulances[selectedIndex].location
-     << ", Time to Call=" << ambulances[selectedIndex].travelTimeToCall << " minutes"
-     << endl;
+    auto duration =
+        chrono::duration_cast<chrono::microseconds>(
+            endTime - startTime);
 
-        ambulances[selectedIndex].available = false;
-    }
-}
+    cout << "\nAlgorithm Execution Time: "
+         << duration.count()
+         << " microseconds"
+         << endl;
 
     return 0;
 }
