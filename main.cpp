@@ -52,15 +52,31 @@ int main() {
     cout << "\nDispatch Results:" << endl;
 
 for (const auto& call : calls) {
-    for (auto& ambulance : ambulances) {
-        if (ambulance.available) {
-            cout << call.callId << " assigned to "
-                 << ambulance.id << " from "
-                 << ambulance.location << endl;
 
-            ambulance.available = false;
-            break;
+    int fastestTime = 9999;
+    int selectedIndex = -1;
+
+    for (int i = 0; i < ambulances.size(); i++) {
+
+        if (ambulances[i].available &&
+            ambulances[i].travelTimeToCall < fastestTime) {
+
+            fastestTime = ambulances[i].travelTimeToCall;
+            selectedIndex = i;
         }
+    }
+
+    if (selectedIndex != -1) {
+
+        cout << call.callId
+             << " assigned to "
+             << ambulances[selectedIndex].id
+             << " | Travel Time: "
+             << ambulances[selectedIndex].travelTimeToCall
+             << " minutes"
+             << endl;
+
+        ambulances[selectedIndex].available = false;
     }
 }
 
