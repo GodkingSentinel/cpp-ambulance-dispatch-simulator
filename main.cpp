@@ -68,13 +68,14 @@ for (const auto& call : calls) {
 
     if (selectedIndex != -1) {
 
-        cout << call.callId
-             << " assigned to "
-             << ambulances[selectedIndex].id
-             << " | Travel Time: "
-             << ambulances[selectedIndex].travelTimeToCall
-             << " minutes"
-             << endl;
+      cout << "Dispatch Record: "
+     << "Call ID=" << call.callId
+     << ", Call Type=" << call.callType
+     << ", Call Location=" << call.location
+     << ", Selected Ambulance=" << ambulances[selectedIndex].id
+     << ", Ambulance Location=" << ambulances[selectedIndex].location
+     << ", Time to Call=" << ambulances[selectedIndex].travelTimeToCall << " minutes"
+     << endl;
 
         ambulances[selectedIndex].available = false;
     }
