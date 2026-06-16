@@ -48,6 +48,20 @@ int main() {
              << call.callType << " | Priority "
              << call.priority << endl;
     }
+    cout << "\nDispatch Results:" << endl;
+
+for (const auto& call : calls) {
+    for (auto& ambulance : ambulances) {
+        if (ambulance.available) {
+            cout << call.callId << " assigned to "
+                 << ambulance.id << " from "
+                 << ambulance.location << endl;
+
+            ambulance.available = false;
+            break;
+        }
+    }
+}
 
     return 0;
 }
