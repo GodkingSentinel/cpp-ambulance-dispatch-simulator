@@ -134,5 +134,15 @@ int main() {
          << " microseconds"
          << endl;
 
+    cout << "\nSimulation Complete" << endl;
+
+    cout << "Total calls processed: "
+         << calls.size()
+         << endl;
+
+    cout << "Total ambulances evaluated: "
+         << ambulances.size()
+         << endl;
+
     return 0;
 }
