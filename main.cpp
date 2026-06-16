@@ -20,6 +20,12 @@ struct EmergencyCall {
     int priority;
 };
 
+struct Route {
+    string from;
+    string to;
+    int travelTime;
+};
+
 int main() {
 
     cout << "C++ Ambulance Dispatch Simulator" << endl;
